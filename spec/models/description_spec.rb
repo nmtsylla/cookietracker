@@ -12,4 +12,14 @@ RSpec.describe(Description, type: :model) {
     subject.name = nil
     expect(subject).to_not be_valid
   end
+
+  it "description should be present" do
+    subject.description = nil
+    expect(subject).to_not be_valid
+  end
+
+  it "online_description should be present" do
+    subject.online_description = nil
+    expect(subject).to_not be_valid
+  end
 }
