@@ -42,6 +42,7 @@ group :development, :test do
   # There may be other lines in this block already. Simply append the following after:
   %w[rspec-core rspec-expectations rspec-mocks rspec-rails rspec-support].each do |lib|
     gem lib, git: "https://github.com/rspec/#{lib}.git", branch: 'master' # Previously '4-0-dev' or '4-0-maintenance' branch
+    gem 'shoulda-matchers'
   end
 end
 
