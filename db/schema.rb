@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_09_211301) do
+ActiveRecord::Schema.define(version: 2020_06_09_222251) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,8 +36,23 @@ ActiveRecord::Schema.define(version: 2020_06_09_211301) do
     t.bigint "description_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "website_id", null: false
     t.index ["description_id"], name: "index_kookies_on_description_id"
+    t.index ["website_id"], name: "index_kookies_on_website_id"
+  end
+
+  create_table "websites", force: :cascade do |t|
+    t.string "url"
+    t.integer "scan_schedule"
+    t.integer "weekly_scan_day"
+    t.datetime "added_date"
+    t.datetime "last_scanned"
+    t.integer "customer_id"
+    t.boolean "active"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   add_foreign_key "kookies", "descriptions"
+  add_foreign_key "kookies", "websites"
 end
