@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Website, type: :model do
+  subject { build(:website) }
 
   context "validations" do
     it{ should validate_presence_of :url }
@@ -10,4 +11,5 @@ RSpec.describe Website, type: :model do
     it{ should validate_presence_of :added_date }
     it{ should have_many :kookies }
   end
+
 end
