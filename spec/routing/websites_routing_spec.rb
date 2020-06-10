@@ -1,30 +1,30 @@
 require "rails_helper"
 
-RSpec.describe WebsitesController, type: :routing do
+RSpec.describe Api::V1::WebsitesController, type: :routing do
   describe "routing" do
     it "routes to #index" do
-      expect(get: "/websites").to route_to("websites#index")
+      expect(get: "api/v1/websites").to route_to("api/v1/websites#index")
     end
 
     it "routes to #show" do
-      expect(get: "/websites/1").to route_to("websites#show", id: "1")
+      expect(get: "api/v1/websites/1").to route_to("api/v1/websites#show", id: "1")
     end
 
 
     it "routes to #create" do
-      expect(post: "/websites").to route_to("websites#create")
+      expect(post: "api/v1/websites").to route_to("api/v1/websites#create")
     end
 
     it "routes to #update via PUT" do
-      expect(put: "/websites/1").to route_to("websites#update", id: "1")
+      expect(put: "api/v1/websites/1").to route_to("api/v1/websites#update", id: "1")
     end
 
     it "routes to #update via PATCH" do
-      expect(patch: "/websites/1").to route_to("websites#update", id: "1")
+      expect(patch: "api/v1/websites/1").to route_to("api/v1/websites#update", id: "1")
     end
 
     it "routes to #destroy" do
-      expect(delete: "/websites/1").to route_to("websites#destroy", id: "1")
+      expect(delete: "api/v1/websites/1").to route_to("api/v1/websites#destroy", id: "1")
     end
   end
 end

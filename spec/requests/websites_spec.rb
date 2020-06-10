@@ -45,7 +45,7 @@ RSpec.describe "/websites", type: :request do
   describe "GET /index" do
     let!(:website) {FactoryBot.create_list(:website, 20)}
 
-    before { get websites_url, headers: valid_headers, as: :json }
+    before { get api_v1_websites_url, headers: valid_headers, as: :json }
 
     it "renders a successful response" do
       expect(response).to be_successful
@@ -59,7 +59,7 @@ RSpec.describe "/websites", type: :request do
 
   describe "GET /show" do
     let!(:website) { create(:website) }
-    before { get website_url(website), as: :json }
+    before { get api_v1_website_url(website), as: :json }
 
     it "renders a successful response" do
       expect(response).to be_successful
@@ -69,18 +69,17 @@ RSpec.describe "/websites", type: :request do
   describe "POST /create" do
     context "with valid parameters" do
       before do
-        post websites_url,
+        post api_v1_websites_url,
              params: { website: valid_attributes }
       end
       it "creates a new Website" do
         expect {
-          post websites_url,
+          post api_v1_websites_url,
                params: { website: valid_attributes }
         }.to change(Website, :count).by(1)
       end
 
       it "renders a JSON response with the new website" do
-
         expect(response).to have_http_status(:created)
         expect(response.content_type).to match(a_string_including("application/json"))
       end
@@ -91,13 +90,13 @@ RSpec.describe "/websites", type: :request do
     context "with invalid parameters" do
       it "does not create a new Website" do
         expect {
-          post websites_url,
+          post api_v1_websites_url,
                params: { website: invalid_attributes }
         }.to change(Website, :count).by(0)
       end
 
       it "renders a JSON response with errors for the new website" do
-        post websites_url,
+        post api_v1_websites_url,
              params: { website: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -114,7 +113,7 @@ RSpec.describe "/websites", type: :request do
 
       before {
         new_attributes[:weekly_scan_day] = :weekly
-        patch website_url(website),
+        patch api_v1_website_url(website),
                      params: { website: new_attributes }
       }
 
@@ -137,7 +136,7 @@ RSpec.describe "/websites", type: :request do
       before {new_attributes['weekly_scan_day'] = 10}
       it "renders a JSON response with errors for the website" do
 
-        patch website_url(website),
+        patch api_v1_website_url(website),
               params: { website: new_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -149,7 +148,7 @@ RSpec.describe "/websites", type: :request do
     let!(:website) { create(:website) }
     it "destroys the requested website" do
       expect {
-        delete website_url(website), headers: valid_headers, as: :json
+        delete api_v1_website_url(website), headers: valid_headers, as: :json
       }.to change(Website, :count).by(-1)
     end
   end
