@@ -41,4 +41,5 @@ RSpec.describe Kookie, type: :model do
   it{should belong_to(:description)}
   it{should belong_to(:website)}
 
+
 end

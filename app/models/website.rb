@@ -1,5 +1,6 @@
 class Website < ApplicationRecord
   enum scan_schedule: [:weekly, :daily, :monthly]
+  attribute :active, :boolean, default: true
 
   has_many :kookies
 
