@@ -29,7 +29,8 @@ RSpec.describe "/websites", type: :request do
   let(:invalid_attributes) {
     h = Hash.new
     h['url'] =  nil
-    h['scan_schedule'] = :weekly
+    h['scan_schedule'] = 4
+    h['weekly_scan_day'] = 9
     h
   }
 
@@ -69,7 +70,7 @@ RSpec.describe "/websites", type: :request do
     context "with valid parameters" do
       before do
         post websites_url,
-             params: { 'website': valid_attributes }
+             params: { website: valid_attributes }
       end
       it "creates a new Website" do
         expect {
@@ -112,14 +113,14 @@ RSpec.describe "/websites", type: :request do
       let!(:website) { create(:website) }
 
       before {
-        new_attributes['weekly_scan_day'] = 1
+        new_attributes[:weekly_scan_day] = :weekly
         patch website_url(website),
                      params: { website: new_attributes }
       }
 
       it "updates the requested website" do
         expect(response).to have_http_status(:ok)
-        expect(JSON.parse(response.body)['weekly_scan_day']).to eq(1)
+        expect(JSON.parse(response.body)['weekly_scan_day']).to eq(0)
       end
 
       it "renders a JSON response with the website" do
@@ -130,10 +131,14 @@ RSpec.describe "/websites", type: :request do
 
     context "with invalid parameters" do
       let!(:website) { create(:website) }
+      let!(:new_attributes) {
+        FactoryBot.attributes_for(:website)
+      }
+      before {new_attributes['weekly_scan_day'] = 10}
       it "renders a JSON response with errors for the website" do
 
         patch website_url(website),
-              params: { website: invalid_attributes }
+              params: { website: new_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to match(a_string_including("application/json"))
       end

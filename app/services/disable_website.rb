@@ -1,4 +1,5 @@
 class DisableWebsite < ApplicationService
+
   def initialize(params)
     @params = params
   end
@@ -6,7 +7,9 @@ class DisableWebsite < ApplicationService
   def call
     @website = Website.find(@params[:id])
     @website.active = false
-    @website.save!
+    unless @website.save!
+      raise(NotValidEntryRecord, @website.errors.full_messages.to_sentence)
+    end
   end
 
 end

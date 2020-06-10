@@ -15,27 +15,31 @@ class WebsitesController < ApplicationController
 
   # POST /websites
   def create
-    @website = Website.new(website_params)
-
-    if @website.save
+    begin
+      @website = CreateScheduleWebsite.new(website_params).call
       render json: @website, status: :created, location: @website
-    else
-      render json: @website.errors, status: :unprocessable_entity
+    rescue Exception => e
+      render json: { message: e.message }, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /websites/1
   def update
-    if @website.update(website_params)
+    begin
+      @website = UpdateScheduleWebsite.new(params[:id], website_params).call
       render json: @website
-    else
-      render json: @website.errors, status: :unprocessable_entity
+    rescue Exception => e
+      render json: { message: e.message }, status: :unprocessable_entity
     end
   end
 
   # DELETE /websites/1
   def destroy
-    @website.deactivate!
+    begin
+      DisableWebsite.new(params).call
+    rescue Exception => e
+      render json: { message: e.message }, status: :unprocessable_entity
+    end
   end
 
   private
