@@ -5,7 +5,7 @@ module Api
 
       # GET /websites
       def index
-        @websites = Website.all
+        @websites = Website.includes(:kookies)
         render json: @websites
       end
 
