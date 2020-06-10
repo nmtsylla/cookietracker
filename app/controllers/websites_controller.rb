@@ -35,7 +35,7 @@ class WebsitesController < ApplicationController
 
   # DELETE /websites/1
   def destroy
-    @website.destroy
+    @website.deactivate!
   end
 
   private
