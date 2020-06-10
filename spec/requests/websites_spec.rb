@@ -17,11 +17,20 @@ RSpec.describe "/websites", type: :request do
   # Website. As you add validations to Website, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    h = Hash.new
+    h['url'] =  Faker::Internet.url
+    h['scan_schedule'] = :weekly
+    h['weekly_scan_day'] = (0..5).to_a.sample
+    h['added_date'] = Faker::Date.in_date_period(month: 1)
+    h['customer_id'] = (1..50).to_a.sample
+    h
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    h = Hash.new
+    h['url'] =  nil
+    h['scan_schedule'] = :weekly
+    h
   }
 
   # This should return the minimal set of values that should be in the headers
@@ -29,96 +38,111 @@ RSpec.describe "/websites", type: :request do
   # WebsitesController, or in your router and rack
   # middleware. Be sure to keep this updated too.
   let(:valid_headers) {
-    {}
+    {'Content-Type': 'appplication/json'}
   }
 
   describe "GET /index" do
+    let!(:website) {FactoryBot.create_list(:website, 20)}
+
+    before { get websites_url, headers: valid_headers, as: :json }
+
     it "renders a successful response" do
-      Website.create! valid_attributes
-      get websites_url, headers: valid_headers, as: :json
       expect(response).to be_successful
     end
+
+    it 'returns all websites' do
+      expect(JSON.parse(response.body).size).to eq(20)
+    end
+
   end
 
   describe "GET /show" do
+    let!(:website) { create(:website) }
+    before { get website_url(website), as: :json }
+
     it "renders a successful response" do
-      website = Website.create! valid_attributes
-      get website_url(website), as: :json
       expect(response).to be_successful
     end
   end
 
   describe "POST /create" do
     context "with valid parameters" do
+      before do
+        post websites_url,
+             params: { 'website': valid_attributes }
+      end
       it "creates a new Website" do
         expect {
           post websites_url,
-               params: { website: valid_attributes }, headers: valid_headers, as: :json
+               params: { website: valid_attributes }
         }.to change(Website, :count).by(1)
       end
 
       it "renders a JSON response with the new website" do
-        post websites_url,
-             params: { website: valid_attributes }, headers: valid_headers, as: :json
+
         expect(response).to have_http_status(:created)
         expect(response.content_type).to match(a_string_including("application/json"))
       end
+
+      it { expect(JSON.parse(response.body)['active']).to eq(true) }
     end
 
     context "with invalid parameters" do
       it "does not create a new Website" do
         expect {
           post websites_url,
-               params: { website: invalid_attributes }, as: :json
+               params: { website: invalid_attributes }
         }.to change(Website, :count).by(0)
       end
 
       it "renders a JSON response with errors for the new website" do
         post websites_url,
-             params: { website: invalid_attributes }, headers: valid_headers, as: :json
+             params: { website: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq("application/json")
+        expect(response.content_type).to match(a_string_including("application/json"))
       end
     end
   end
 
   describe "PATCH /update" do
     context "with valid parameters" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+      let!(:new_attributes) {
+        FactoryBot.attributes_for(:website)
+      }
+      let!(:website) { create(:website) }
+
+      before {
+        new_attributes['weekly_scan_day'] = 1
+        patch website_url(website),
+                     params: { website: new_attributes }
       }
 
       it "updates the requested website" do
-        website = Website.create! valid_attributes
-        patch website_url(website),
-              params: { website: new_attributes }, headers: valid_headers, as: :json
-        website.reload
-        skip("Add assertions for updated state")
+        expect(response).to have_http_status(:ok)
+        expect(JSON.parse(response.body)['weekly_scan_day']).to eq(1)
       end
 
       it "renders a JSON response with the website" do
-        website = Website.create! valid_attributes
-        patch website_url(website),
-              params: { website: new_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:ok)
         expect(response.content_type).to match(a_string_including("application/json"))
       end
     end
 
     context "with invalid parameters" do
+      let!(:website) { create(:website) }
       it "renders a JSON response with errors for the website" do
-        website = Website.create! valid_attributes
+
         patch website_url(website),
-              params: { website: invalid_attributes }, headers: valid_headers, as: :json
+              params: { website: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq("application/json")
+        expect(response.content_type).to match(a_string_including("application/json"))
       end
     end
   end
 
   describe "DELETE /destroy" do
+    let!(:website) { create(:website) }
     it "destroys the requested website" do
-      website = Website.create! valid_attributes
       expect {
         delete website_url(website), headers: valid_headers, as: :json
       }.to change(Website, :count).by(-1)
