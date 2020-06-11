@@ -1,0 +1,77 @@
+# curl --location --request DELETE 'localhost:3000/api/v1/websites/1'
+#--header 'Content-Type: application/json'
+DELETE localhost:3000/api/v1/websites/1
+Content-Type: application/json
+
+###
+
+# curl --location --request PATCH 'localhost:3000/api/v1/websites/1'
+#--header 'Content-Type: application/json'
+#--data-raw '{
+#    "website": {
+#        "url": "http://mckenzie.name/kiesha",
+#    "scan_schedule": "weekly",
+#    "weekly_scan_day": 4}
+#
+#}'
+POST localhost:3000/api/v1/websites/1
+Content-Type: application/json
+
+{
+  "website": {
+    "url": "http://mckenzie.name/kiesha",
+    "scan_schedule": "weekly",
+    "weekly_scan_day": 4
+  }
+
+}
+
+<> 2020-06-11T123206.404.html
+
+###
+
+# curl --location --request GET 'localhost:3000/api/v1/websites/1'
+#--header 'Content-Type: application/json'
+GET localhost:3000/api/v1/websites/1
+Content-Type: application/json
+
+<> 2020-06-11T123207.404.html
+
+###
+
+# curl --location --request GET 'localhost:3000/api/v1/websites'
+#--header 'Content-Type: application/json'
+GET localhost:3000/api/v1/websites
+Content-Type: application/json
+
+<> 2020-06-11T123209.200.json
+
+###
+
+# curl --location --request POST 'localhost:3000/api/v1/websites'
+#--header 'Content-Type: application/json'
+#--data-raw '{
+#    "website": {    "url": "http://mckenzie.name/kiesha",
+#    "scan_schedule": "weekly",
+#    "weekly_scan_day": 3,
+#    "added_date": "2020-01-11T00:00:00.000Z", "customer_id": 99}
+#
+#}'
+POST localhost:3000/api/v1/websites
+Content-Type: application/json
+
+{
+  "website": {
+    "url": "http://mckenzie.name/kiesha",
+    "scan_schedule": "weekly",
+    "weekly_scan_day": 3,
+    "added_date": "2020-01-11T00:00:00.000Z",
+    "customer_id": 99
+  }
+
+}
+
+<> 2020-06-11T123209.201.json
+
+###
+

@@ -1,24 +1,11 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+* CookieTracker API
 
-Things you may want to cover:
+This project have been developped with ruby 2.7.0 and ruby on rails 6.0.3;
+If you change the ruby version make sure to have at least ruby 2.5
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
+* Usage 
+To see the usage please check the file (api-test.http)
 
 * ...
