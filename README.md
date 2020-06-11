@@ -17,5 +17,6 @@ bundle exec rspec spec
 
 ## Usage 
 To see the usage please check the file (api-test.http)
+Opened with the right IDE or extension it can allow you to test all the available endpoints in the API.
 
 * ...
