@@ -45,9 +45,11 @@ group :development, :test do
     gem 'shoulda-matchers'
     gem 'faker'
     gem 'factory_bot_rails'
+    gem 'rspec_api_documentation'
   end
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'active_model_serializers', '~> 0.10.0'
+gem 'rack-cors'
