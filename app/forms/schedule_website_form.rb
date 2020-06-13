@@ -5,7 +5,7 @@ class ScheduleWebsiteForm
 
   attr_accessor :url, :weekly_scan_day, :scan_schedule,
                 :added_date, :customer_id, :active
-  validates :url, :weekly_scan_day, :scan_schedule, :added_date, presence: true
+  validates :url, :weekly_scan_day, :scan_schedule, :customer_id, presence: true
 
   validates :weekly_scan_day, :numericality=> true, :inclusion => {:in => 0..6, :message => "Value should be between 0 and 6"}
   validates_inclusion_of :scan_schedule, :in => ['weekly', :daily, :monthly]
